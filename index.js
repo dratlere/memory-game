@@ -1,5 +1,12 @@
 let cardsOrg = ['👽', ' 😈', ' 💩 ', ' 😻', ' 🧟‍♂️', ' 🤖'];
 
+let players=[
+    {player1: 'asd', score:12},
+    {player2: 'asd', score:12},
+];
+
+
+
 //dubble the array
 cards = cardsOrg.flatMap(i => [i, i]);
 
@@ -25,30 +32,9 @@ for (let i = 0; i < cards.length; i++) {
     elem.classList.add('hidden');
     elem.onclick = flipCard;
     board.appendChild(elem);
-    // let elem2 = document.createElement('div');
-    // elem2.innerText = (cards[i]);
-    // elem2.className = ('cardStyle');
-    // elem2.classList.add('hidden');
-    // elem2.onclick = flipCard2;
-    // board.appendChild(elem2);
 }
 
-// let myCard1;
-// let myCard2;
-//flip the cards
+
 function flipCard(event) {
     return event.target.classList.remove('hidden');
 }
-// function flipCard2(event2) {
-//     return myCard2=2,event2.target.classList.remove('hidden');
-    
-// }
-
-// if (flipCard1!=flipCard2) {
-//    // flipCard1(event1),flipCard2(event2);
-//    alert ('sfgsfgs')
-// }
-
-// if (myCard1!==myCard2) {
-//     alert ('sfgsfgs')
-// }
