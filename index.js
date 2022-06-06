@@ -1,40 +1,79 @@
-let cardsOrg = ['👽', ' 😈', ' 💩 ', ' 😻', ' 🧟‍♂️', ' 🤖'];
-
-let players=[
-    {player1: 'asd', score:12},
-    {player2: 'asd', score:12},
-];
-
-
-
-//dubble the array
+const cardsOrg = [{ name: '👽' }, { name: ' 😈' }, { name: ' 💩 ' }, { name: ' 😻' }, { name: ' 🧟‍♂️' }, { name: ' 🤖' }];
 cards = cardsOrg.flatMap(i => [i, i]);
 
+function randRange(a, b) {
+    return Math.floor(a + Math.random() * (b - a));
+}
 
-//suffel the array
-function shuffle(cards) {
-    for (let i = cards.length - 1; i >= 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        let temp = cards[i];
-        cards[i] = cards[j];
-        cards[j] = temp;
-        return cards;
+function swap(arr, i, j) {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+function shuffle(arr) {
+    for (let i = 0; i < 100; i++) {
+        let a1 = randRange(0, arr.length);
+        let a2 = randRange(0, arr.length);
+        if (a1 == a2) {
+            i--;
+            continue;
+        }
+        swap(arr, a1, a2);
     }
 }
-shuffle(cards);
 
-// build the board and cards
-let board = document.getElementById('game-table');
-for (let i = 0; i < cards.length; i++) {
-    let elem = document.createElement('div');
-    elem.innerText = (cards[i]);
-    elem.className = ('cardStyle');
-    elem.classList.add('hidden');
-    elem.onclick = flipCard;
-    board.appendChild(elem);
+let i = 0;
+let compare = [];
+let compareF = (obj) => {
+    compare[i] = obj;
+    i++;
+
+    if (compare.length == 2) {
+        if (
+            !(
+                compare[0].innerHTML == compare[1].innerHTML &&
+                compare[0].id != compare[1].id
+            )
+        ) {
+            setTimeout(() => {
+                compare[0].innerHTML = ``;
+                compare[1].innerHTML = ``;
+                compare[0].onclick = cardClicked;
+                compare[1].onclick = cardClicked;
+            }, 800);
+        }
+        setTimeout(() => {
+            compare = [];
+            i = 0;
+        }, 1000);
+    }
+};
+
+const cardClicked = (evn) => {
+    if (i != 2) {
+        const cardEl = evn.target;
+        cardEl.onclick = ``;
+        const idx = cardEl.id;
+        cardEl.innerHTML = cards[idx].name;
+        compareF(cardEl);
+    }
+};
+
+function creatCardElement(idx) {
+    const board = document.getElementById("board");
+    const cardEl = document.createElement("div");
+    cardEl.id = idx;
+    cardEl.className = "card";
+    cardEl.onclick = cardClicked;
+
+    board.appendChild(cardEl);
 }
 
-
-function flipCard(event) {
-    return event.target.classList.remove('hidden');
+function main() {
+    shuffle(cards);
+    for (let idx in cards) {
+        creatCardElement(idx);
+    }
 }
+main();
